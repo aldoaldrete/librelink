@@ -9,9 +9,13 @@ function readConfig()
         requiredEnvs = [
             'NIGHTSCOUT_API_TOKEN',
             'NIGHTSCOUT_URL',
-            'LINK_UP_USERNAME',
-            'LINK_UP_PASSWORD',
         ];
+	if (process.env.LIBREVIEW_CSV) {
+	    requiredEnvs.push("LIBREVIEW_TZ");
+	} else {
+	    requiredEnvs.push("LINK_UP_USERNAME");
+	    requiredEnvs.push("LINK_UP_PASSWORD");
+	}	    
     }
 
     for (let envName of requiredEnvs)
@@ -59,6 +63,8 @@ function readConfig()
         logLevel: process.env.LOG_LEVEL || 'info',
         singleShot: process.env.SINGLE_SHOT === 'true',
 	allData: process.env.ALL_DATA === 'true',
+	libreviewCSV: process.env.LIBREVIEW_CSV as string,
+	libreviewTZ: process.env.LIBREVIEW_TZ as string,
 
         nightscoutApiV3: process.env.NIGHTSCOUT_API_V3 === 'true',
         nightscoutDisableHttps: process.env.NIGHTSCOUT_DISABLE_HTTPS === 'true',
